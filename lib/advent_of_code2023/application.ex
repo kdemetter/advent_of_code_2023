@@ -9,7 +9,7 @@ defmodule AdventOfCode2023.Application do
   def start(_type, args) do
     children = [
       # Starts a worker by calling: AventOfCode2023.Worker.start_link(arg)
-      {AdventOfCode2023.Day01, args}
+      {AdventOfCode2023.Day02, args}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

@@ -24,9 +24,10 @@ use GenServer
   end
 
 
-  defp convert("", _number_map), do: ""
+  def convert("", _number_map), do: ""
 
-  defp convert(text, number_map) do
+  def convert(text, number_map) do
+    # moving window starting from the left, when a match is found, replace it with the number
     Enum.reduce(number_map, {text, ""}, fn {word, num}, {remaining, acc} ->
       if String.starts_with?(remaining, word) do
         {String.slice(remaining, String.length(word)..-1), acc <> num}
@@ -46,7 +47,7 @@ use GenServer
 
   def init(:ok) do
 
-    {:ok, contents} = File.read("lib/advent_of_code2023/day01/input1.txt")
+    {:ok, contents} = File.read("lib/advent_of_code2023/day01/example2.txt")
     String.split(contents, "\n") |>  # split it by new line
         Enum.map(&convert_text_to_numbers/1) |> # replace words with numbers first
         Enum.map(&String.replace(&1, ~r/\D/, "")) |>  # remove all non-digits
