@@ -23,6 +23,7 @@ use GenServer
     convert(text, number_map)
   end
 
+
   defp convert("", _number_map), do: ""
 
   defp convert(text, number_map) do
@@ -45,9 +46,9 @@ use GenServer
 
   def init(:ok) do
 
-    {:ok, contents} = File.read("lib/advent_of_code2023/day01/example2.txt")
+    {:ok, contents} = File.read("lib/advent_of_code2023/day01/input1.txt")
     String.split(contents, "\n") |>  # split it by new line
-        Enum.map(&convert_text_to_numbers/1) |> IO.inspect() |> # replace words with numbers first
+        Enum.map(&convert_text_to_numbers/1) |> # replace words with numbers first
         Enum.map(&String.replace(&1, ~r/\D/, "")) |>  # remove all non-digits
         Enum.map(&String.slice(&1, 0..0) <> String.slice(&1, -1..-1)) |>  # take first and last digit and concatenate them
         Enum.map(&String.to_integer/1)  |> # convert to integer so we can sum it
