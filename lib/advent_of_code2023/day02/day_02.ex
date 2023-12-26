@@ -1,6 +1,7 @@
 # Lessons learned:
 # Initially wanted to use a variable to keep the max value over the sets, but that doesn't work in Elixir because the variable is immutable.
-# this is annoying because I had to keep three values, so I needed up using a map and updating that
+# Instead used map reduce to pass along a map with with the three values and updated the map
+# Alternatively could have passed a new tuple with the updated values
 
 
 defmodule AdventOfCode2023.Day02 do
