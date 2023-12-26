@@ -1,11 +1,16 @@
-defmodule Item do
+defmodule Day02.Item do
   defstruct [:color, :quantity]
+
+  def to_string(item) do
+    "#{item.quantity} #{item.color}"
+  end
+
 end
 
-defmodule Set do
+defmodule Day02.Set do
   defstruct [:items]
 end
 
-defmodule Game do
+defmodule Day02.Game do
   defstruct [:id, :sets]
 end
