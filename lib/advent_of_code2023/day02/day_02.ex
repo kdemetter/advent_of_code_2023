@@ -1,3 +1,8 @@
+# Lessons learned:
+# Initially wanted to use a variable to keep the max value over the sets, but that doesn't work in Elixir because the variable is immutable.
+# this is annoying because I had to keep three values, so I needed up using a map and updating that
+
+
 defmodule AdventOfCode2023.Day02 do
 use GenServer
 
@@ -46,16 +51,46 @@ use GenServer
         end)
       end)
     end)
-
-
   end
 
-  def init(:ok) do
+
+  defp minimum_cubes(games) do
+    # get the minimum number of cubes needed per game ( so per game we have a red, green and blue cube)
+    Enum.map(games, fn game ->
+
+        Enum.reduce(game.sets, %{red: 0, green: 0, blue: 0}, fn set, acc ->
+          Enum.reduce(set.items, acc, fn item, acc ->
+            case item.color do
+              "red" -> Map.update(acc, :red, 0, fn red -> max(red,item.quantity) end)
+              "green" -> Map.update(acc, :green, 0, fn green -> max(green,item.quantity) end)
+              "blue" -> Map.update(acc, :blue, 0, fn blue -> max(blue,item.quantity) end)
+            end
+            # IO.inspect(acc)
+          end)
+        end)
+    end)
+  end
+
+  defp power_cubes(sets) do
+    sets |> Enum.map( fn set -> set.green * set.blue * set.red end) |> Enum.sum()
+  end
+
+
+  def part1() do
     games = file_to_games("lib/advent_of_code2023/day02/input1.txt")
     games |> filter_possible_cubes() |>
     # sum up the ids of the games
     Enum.map(&(&1.id)) |> Enum.sum() |> IO.inspect()
+  end
 
+  def part2() do
+    games = file_to_games("lib/advent_of_code2023/day02/input1.txt")
+    games |> minimum_cubes() |> power_cubes |> IO.inspect()
+  end
+
+  def init(:ok) do
+    part1()
+    part2()
     {:ok, nil}
   end
 end
